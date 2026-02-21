@@ -4,9 +4,39 @@ Express + TypeScript API for BussinessV2.
 
 ## Setup
 
-1. Create a `.env` file using `.env.example` as a template.
+1. Create `apps/api/.env` using `.env.example` as a template.
+   - Windows note: if a system `DATABASE_URL` exists, it can conflict with local dev.
+     This project loads `apps/api/.env` with `override=true` so the local value wins.
 2. Ensure PostgreSQL is running and the database exists.
 3. Create tables with the SQL script at the end of this README.
+
+Example `apps/api/.env`:
+
+```bash
+PORT=8000
+DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/bcai
+JWT_SECRET=changeme
+GEMINI_API_KEY=changeme
+```
+
+Run in dev mode:
+
+```bash
+cd apps/api
+npm run dev
+```
+
+Verify DB connectivity:
+
+```bash
+curl http://localhost:8000/api/health/db
+```
+
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri http://localhost:8000/api/health/db
+```
 
 ## Scripts
 

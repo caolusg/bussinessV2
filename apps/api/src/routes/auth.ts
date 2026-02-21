@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { query } from "../db";
@@ -22,20 +23,38 @@ router.post("/register", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "name, email, and password are required" });
     }
 
-    const existing = await query<{ id: number }>("SELECT id FROM users WHERE email = $1", [email]);
+    const existing = await query<{ id: string }>("SELECT id FROM users WHERE email = $1", [email]);
     if (existing.length > 0) {
       return res.status(409).json({ error: "Email already registered" });
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const rows = await query<{ id: number; name: string; email: string }>(
-      "INSERT INTO users (name, email, password_hash) VALUES ($1, $2, $3) RETURNING id, name, email",
-      [name, email, passwordHash]
+    const userId = randomUUID();
+    const rows = await query<{ id: string; name: string; email: string }>(
+      "INSERT INTO users (id, name, email, password_hash) VALUES ($1, $2, $3, $4) RETURNING id, name, email",
+      [userId, name, email, passwordHash]
     );
 
     return res.status(201).json({ user: rows[0] });
   } catch (error) {
-    return res.status(500).json({ error: "Failed to register" });
+    const err = error as {
+      code?: string;
+      detail?: string;
+      constraint?: string;
+      message?: string;
+    };
+    console.error("[register] error", err);
+    console.error({
+      code: err.code,
+      detail: err.detail,
+      constraint: err.constraint,
+      message: err.message
+    });
+    return res.status(500).json({
+      error: "Failed to register",
+      detail: err.message,
+      code: err.code
+    });
   }
 });
 
