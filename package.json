@@ -1,0 +1,17 @@
+{
+  "name": "bussinessv2-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w apps/web",
+    "build": "npm run build -w apps/web",
+    "preview": "npm run preview -w apps/web",
+    "lint": "npm run lint -w apps/web"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2"
+  }
+}
