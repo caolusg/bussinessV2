@@ -115,9 +115,9 @@ export const NegotiationPage: React.FC = () => {
       <main className="flex-1 overflow-hidden p-6">
         <div className="mx-auto flex h-full max-w-4xl flex-col rounded-2xl border border-zinc-200 bg-white shadow-sm">
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-4">
-            {session?.messages.map((msg) => (
+            {session?.messages.map((msg, index) => (
               <div
-                key={msg.id}
+                key={`${msg.role}-${index}`}
                 className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div

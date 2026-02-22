@@ -12,6 +12,12 @@ app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
+app.get("/api/health/ai", (_req, res) => {
+  const hasKey = Boolean(process.env.GEMINI_API_KEY);
+  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  res.status(200).json({ ok: hasKey, hasKey, model });
+});
+
 app.get("/api/health/db", async (_req, res) => {
   try {
     await getPool().query("SELECT 1");

@@ -21,11 +21,18 @@ A simplified cross-cultural business negotiation practice system with authentica
     cp .env.example .env.local
     ```
     Default `VITE_API_BASE_URL` is empty (uses current host).
+    In dev, Vite proxies `/api/*` from `http://localhost:3000` to `http://localhost:8000`.
 
 3.  **Start Development Server**:
     ```bash
     npm run dev
     ```
+
+## Dev Proxy
+
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:8000`
+- `/api/*` requests go to the backend via Vite `server.proxy`.
 
 ## Routes
 

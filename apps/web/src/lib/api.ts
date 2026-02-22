@@ -58,14 +58,14 @@ export const api = {
       return res.json();
     },
 
-    async saveMessage(sessionId: string, content: string): Promise<{ messageId: string }> {
+    async saveMessage(sessionId: string, content: string): Promise<{ ok: boolean }> {
       const res = await fetch(`${BASE_URL}/api/negotiation/sessions/${sessionId}/messages`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
           ...getAuthHeader()
         },
-        body: JSON.stringify({ role: 'user', content }),
+        body: JSON.stringify({ content }),
       });
       if (!res.ok) throw new Error('Failed to save message');
       return res.json();

@@ -13,7 +13,6 @@ export interface AuthResponse {
 }
 
 export interface Message {
-  id: string;
   role: Role;
   content: string;
   createdAt: string;
@@ -21,8 +20,8 @@ export interface Message {
 
 export interface Session {
   sessionId: string;
-  scenario: string;
-  locale: Locale;
+  scenario?: string;
+  locale?: Locale;
   messages: Message[];
 }
 
@@ -45,5 +44,5 @@ export interface AIReplyRequest {
 }
 
 export interface AIReplyResponse {
-  assistantMessage: Message;
+  reply: string;
 }
